@@ -10,4 +10,6 @@ build:
   stage: build
   script:
     - docker build -t test . 
+    - uzWU4uKQfS2cKNpRsJEx
+    - docker login -u yves -p uzWU4uKQfS2cKNpRsJEx $CI_REGISTRY
     - docker push test
