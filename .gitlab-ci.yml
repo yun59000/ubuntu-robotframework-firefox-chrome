@@ -11,9 +11,6 @@ variables:
   DOCKER_DRIVER: overlay
   CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
 
-before_script:
-  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-
 build:
   stage: build
   script:
@@ -22,7 +19,7 @@ build:
 release-image:
   stage: release
   script:
-    - docker tag test test
-    - docker push test
+    - docker tag test $CI_REGISTRY/test
+    - docker push $CI_REGISTRY/test
   only:
     - master
