@@ -9,4 +9,5 @@ variables:
 build:
   stage: build
   script:
-    - docker build -t test .
+    - docker build -t test . 
+    - docker push test
