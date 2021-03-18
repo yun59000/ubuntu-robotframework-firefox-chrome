@@ -9,7 +9,6 @@ stages:
 
 variables:
   DOCKER_DRIVER: overlay
-  CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
 
 build:
   stage: build
@@ -19,7 +18,7 @@ build:
 release-image:
   stage: release
   script:
-    - docker tag test $CI_REGISTRY/test
-    - docker push $CI_REGISTRY/test
+    - docker tag test $MY_CI_REGISTRY/test
+    - docker push $MY_CI_REGISTRY/test
   only:
     - master
