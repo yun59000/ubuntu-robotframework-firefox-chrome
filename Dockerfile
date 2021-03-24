@@ -1,7 +1,7 @@
 FROM ubuntu:18.04
 
 LABEL Name="ubuntu-robotframework-firefox-chrome"  
-LABEL Url="http://remoinux.hd.free.fr/robotframework/ubuntu-robotframework-firefox-chrome"
+LABEL Url="http://remoinux.hd.free.fr:18887/robotframework/ubuntu-robotframework-firefox-chrome"
 LABEL image_tag="G00R00C00"
 LABEL description="Image Docker Robotframework"
 LABEL maintainer=richard.yves@gmail.com
