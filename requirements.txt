@@ -13,7 +13,6 @@ cffi==1.14.5
 chardet==3.0.4
 click==7.1.2
 colorama==0.4.3
-command-not-found==0.3
 ConfigArgParse==0.13.0
 configobj==5.0.6
 cryptography==3.4.7
