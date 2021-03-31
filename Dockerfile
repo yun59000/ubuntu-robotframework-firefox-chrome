@@ -21,7 +21,7 @@ COPY requirements.txt /tmp/requirements.txt
 COPY entry_point.sh /opt/bin/entry_point.sh
 
 RUN apt update && apt-get update \
-  && apt-get install --no-install-recommends -y python3 python3-pip \
+  && apt-get install --no-install-recommends -y python3 python3-pip python3-dev\
   && apt-get install --no-install-recommends -y xvfb curl unzip dpkg ffmpeg fonts-liberation libappindicator3-1 libxtst6 wget gcc libffi-dev libgbm1 \
   && apt-get install --no-install-recommends -y ca-certificates dbus libgtk-3-0 libdbus-glib-1-2 libnspr4  libnss3 xdg-utils musl-dev make openssl \
   && rm -rf /var/lib/apt/lists/*
