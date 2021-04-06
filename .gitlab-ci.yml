@@ -50,7 +50,7 @@ test-image:
     #run l'image
     - docker run --name moncontainer -itd $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
     #executer le test robot
-    - docker exec -it moncontainer robot /test/simpleTest
+    - docker exec moncontainer robot /test/simpleTest
     #robot test/simpleTest
     #arreter le container
     - docker stop moncontainer
