@@ -44,7 +44,15 @@ test-image:
   tags:
     - dind
   script:
-    - docker --version
+    #run l'image
+    - docker run --name moncontainer -d $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    #executer le test robot
+    - robot test/simpleTest
+    #arreter le container
+    - docker stop moncontainer
+    #supprimer le container
+    - docker rm $(docker ps --filter status=exited -q)
+    
 
 release-image:
   stage: release
