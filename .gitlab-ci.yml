@@ -43,9 +43,9 @@ test-image:
   stage: test
   script:
     #run l'image
-    - docker run --name moncontainer -d $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    - docker run --name moncontainer -d $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA exec robot test/simpleTest
     #executer le test robot
-    - docker exec -it moncontainer echo "Hello from container!"
+    #- docker exec -it moncontainer echo "Hello from container!"
     #robot test/simpleTest
     #arreter le container
     - docker stop moncontainer
