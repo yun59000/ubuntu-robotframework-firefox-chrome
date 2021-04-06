@@ -20,8 +20,8 @@ ENV CHROME_DRIVER_VERSION 85.0.4183.87
 COPY requirements.txt /tmp/requirements.txt
 COPY entry_point.sh /opt/bin/entry_point.sh
 
-RUN mkdir /tmp/test
-COPY ./test/ /tmp/test
+RUN mkdir /test
+COPY ./test/ /test
 
 RUN apt update && apt-get update \
   && apt-get install --no-install-recommends -y python3 python3-pip python3-dev\
