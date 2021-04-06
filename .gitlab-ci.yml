@@ -48,7 +48,7 @@ test-image:
     #supprimer le container
     - docker rm $(docker ps --filter status=exited -q)
     #run l'image
-    - docker run --name moncontainer -d $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA exec robot test/simpleTest
+    - docker run --name moncontainer -itd $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA exec robot /test/simpleTest
     #executer le test robot
     #- docker exec -it moncontainer echo "Hello from container!"
     #robot test/simpleTest
