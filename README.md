@@ -20,16 +20,12 @@ Il est possible d'executer les test robotframework en éditant le fichier .gitla
 ```yaml
 functional-tests:
   stage: test
-  image: dockerfactory-iva.si.francetelecom.fr/ubuntu-robotframework-firefox-chrome:master
-  variables:
-    PIP_INDEX_URL: "https://artifactory-iva.si.francetelecom.fr/artifactory/api/pypi/pythonproxy/simple"
-    PIP_EXTRA_INDEX_URL: "https://artifactory-iva.si.francetelecom.fr/artifactory/api/pypi/pythondevops/simple"
+  image: remoinux.ddns.net/ubuntu-robotframework-firefox-chrome:master
   before_script:
-    - pip3 install -r requirements.txt --index-url $PIP_INDEX_URL --extra-index-url $PIP_EXTRA_INDEX_URL || true
+    - pip3 install -r requirements.txt || true
   script:
-    - /bin/bash /opt/bin/entry_point.sh TestSuite/TestSuite_A
+    - /opt/bin/entry_point.sh TestSuite/TestSuite_A
   tags:
-    - rsc
     - docker
     - shared
 ```
