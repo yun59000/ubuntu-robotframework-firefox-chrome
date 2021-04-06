@@ -18,7 +18,7 @@ build:
 release-image:
   stage: release
   script:
-    - docker login -u $CI_JOB_USER -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker tag ubuntu-robotframework-firefox-chrome $CI_REGISTRY/robotframework/ubuntu-robotframework-firefox-chrome
     - docker push $CI_REGISTRY/robotframework/ubuntu-robotframework-firefox-chrome
   only:
