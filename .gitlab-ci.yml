@@ -41,13 +41,12 @@ build:
 
 test-image:
   stage: test
-  tags:
-    - dind
   script:
     #run l'image
     - docker run --name moncontainer -d $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
     #executer le test robot
-    - robot test/simpleTest
+    - docker exec -it moncontainer echo "Hello from container!"
+    #robot test/simpleTest
     #arreter le container
     - docker stop moncontainer
     #supprimer le container
