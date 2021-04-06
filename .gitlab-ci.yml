@@ -42,6 +42,11 @@ build:
 test-image:
   stage: test
   script:
+    #on nettoie
+    #arreter le container
+    - docker stop moncontainer
+    #supprimer le container
+    - docker rm $(docker ps --filter status=exited -q)
     #run l'image
     - docker run --name moncontainer -d $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA exec robot test/simpleTest
     #executer le test robot
