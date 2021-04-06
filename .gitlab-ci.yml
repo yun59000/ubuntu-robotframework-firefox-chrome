@@ -12,8 +12,8 @@ variables:
 
 build:
   stage: build
-  script:
-    - docker build -t test .     
+  script:    
+    - docker build -t remoinux.ddns.net:5050/robotframework/ubuntu-robotframework-firefox-chrome .
 
 release-image:
   stage: release
