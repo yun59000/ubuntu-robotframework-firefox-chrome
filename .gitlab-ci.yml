@@ -9,20 +9,47 @@ stages:
 
 variables:
   DOCKER_DRIVER: overlay2
+  # fill those if you have a proxy in your environment
+  http_proxy: 
+  https_proxy: 
+  no_proxy: 
+
+before_script:
+  - echo -n $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
+  # - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
 
 build:
   stage: build
-  script:    
-    - docker build -t $CI_REGISTRY/robotframework/ubuntu-robotframework-firefox-chrome .
+  script: 
+    - docker pull $CI_REGISTRY_IMAGE:latest || true
+    - >
+     docker build
+      --pull
+      --build-arg http_proxy=$http_proxy
+      --build-arg https_proxy=$https_proxy
+      --build-arg no_proxy=$no_proxy
+      --build-arg VCS_REF=$CI_COMMIT_SHA
+      --build-arg VCS_URL=$CI_PROJECT_URL
+      --cache-from $CI_REGISTRY_IMAGE:latest
+      --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+      .
+
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    #- docker build -t $CI_REGISTRY/robotframework/ubuntu-robotframework-firefox-chrome .
 
 release-image:
   stage: release
-  before_script:
-    - echo -n $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
-    # - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-  script:
-    #- docker tag $CI_REGISTRY/robotframework/ubuntu-robotframework-firefox-chrome ubuntu-robotframework-firefox-chrome
-    - docker tag $CI_REGISTRY_IMAGE $CI_REGISTRY_IMAGE:test    
-    - docker push $CI_REGISTRY_IMAGE:test
+
   only:
+    # Only "master" should be tagged "latest"
     - master
+  
+  script:
+    # Because we have no guarantee that this job will be picked up by the same runner 
+    # that built the image in the previous step, we pull it again locally
+    - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    # Then we tag it "latest"
+    - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE:latest
+    #- docker tag $CI_REGISTRY/robotframework/ubuntu-robotframework-firefox-chrome ubuntu-robotframework-firefox-chrome
+    # And we push it.
+    - docker push $CI_REGISTRY_IMAGE:latest    
