@@ -18,7 +18,7 @@ build:
 release-image:
   stage: release
   script:
-    - docker tag test $MY_CI_REGISTRY/test
-    - docker push $MY_CI_REGISTRY/test
+    - docker tag test $MY_CI_REGISTRY
+    - docker push $MY_CI_REGISTRY
   only:
     - master
