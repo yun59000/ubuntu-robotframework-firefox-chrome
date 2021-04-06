@@ -5,6 +5,7 @@ services:
 
 stages:
   - build
+  - test
   - release
 
 variables:
@@ -37,6 +38,13 @@ build:
 
     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
     #- docker build -t $CI_REGISTRY/robotframework/ubuntu-robotframework-firefox-chrome .
+
+test-image:
+  stage: test
+  tags:
+    - dind
+  script:
+    - echo some test to do
 
 release-image:
   stage: release
