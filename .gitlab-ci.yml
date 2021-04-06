@@ -44,7 +44,7 @@ test-image:
   tags:
     - dind
   script:
-    - echo some test to do
+    - docker --version
 
 release-image:
   stage: release
