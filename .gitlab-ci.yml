@@ -23,16 +23,17 @@ build:
   script: 
     - docker pull $CI_REGISTRY_IMAGE:latest || true
     - >
-     docker build
-      --pull
-      #--build-arg http_proxy=$http_proxy
-      #--build-arg https_proxy=$https_proxy
-      #--build-arg no_proxy=$no_proxy
+      docker build
+      --pull      
       --build-arg VCS_REF=$CI_COMMIT_SHA
       --build-arg VCS_URL=$CI_PROJECT_URL
       --cache-from $CI_REGISTRY_IMAGE:latest
       --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
       .
+    #if needed add to the docker build options:
+      #--build-arg http_proxy=$http_proxy
+      #--build-arg https_proxy=$https_proxy
+      #--build-arg no_proxy=$no_proxy
 
     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
     #- docker build -t $CI_REGISTRY/robotframework/ubuntu-robotframework-firefox-chrome .
