@@ -48,12 +48,12 @@ test-image:
     #supprimer le container
     #- docker rm $(docker ps --filter status=exited -q)
     #run l'image
-    - docker run --name moncontainer -itd $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    - docker run --name moncontainer$CI_COMMIT_SHA -itd $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
     #executer le test robot
-    - docker exec moncontainer /opt/bin/entry_point.sh /test/simpleTest.robot
+    - docker exec moncontainer$CI_COMMIT_SHA /opt/bin/entry_point.sh /test/simpleTest.robot
     #robot test/simpleTest
     #arreter le container
-    - docker stop moncontainer
+    - docker stop moncontainer$CI_COMMIT_SHA
     #supprimer le container
     - docker rm $(docker ps --filter status=exited -q)
     
