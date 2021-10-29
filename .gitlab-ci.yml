@@ -17,28 +17,28 @@ variables:
   #no_proxy: 
 
 before_script:
-  - echo "adresse registry:" $MY_CI_REGISTRY $CI_JOB_TOKEN
-  - echo -n $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $MY_CI_REGISTRY
+  - echo "adresse registry:" $CI_REGISTRY $CI_JOB_TOKEN
+  - echo -n $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
   # - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
 
 build:
   stage: build
   script: 
-    - docker pull $MY_CI_REGISTRY_IMAGE:latest || true
+    - docker pull $CI_REGISTRY_IMAGE:latest || true
     - >
       docker build
       --pull      
       --build-arg VCS_REF=$CI_COMMIT_SHA
       --build-arg VCS_URL=$CI_PROJECT_URL
-      --cache-from $MY_CI_REGISTRY_IMAGE:latest
-      --tag $MY_CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+      --cache-from $CI_REGISTRY_IMAGE:latest
+      --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
       .
     #if needed add to the docker build options:
       #--build-arg http_proxy=$http_proxy
       #--build-arg https_proxy=$https_proxy
       #--build-arg no_proxy=$no_proxy
 
-    - docker push $MY_CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
     #- docker build -t $CI_REGISTRY/robotframework/ubuntu-robotframework-firefox-chrome .
 
 test-image:
@@ -50,7 +50,7 @@ test-image:
     #supprimer le container
     #- docker rm $(docker ps --filter status=exited -q)
     #run l'image
-    - docker run --name moncontainer$CI_COMMIT_SHA -itd $MY_CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    - docker run --name moncontainer$CI_COMMIT_SHA -itd $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
     #executer le test robot
     - docker exec moncontainer$CI_COMMIT_SHA /opt/bin/entry_point.sh /test/simpleTest.robot
     #robot test/simpleTest
@@ -70,9 +70,9 @@ release-image:
   script:
     # Because we have no guarantee that this job will be picked up by the same runner 
     # that built the image in the previous step, we pull it again locally
-    - docker pull $MY_CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
     # Then we tag it "latest"
-    - docker tag $MY_CI_REGISTRY_IMAGE:$CI_COMMIT_SHA $MY_CI_REGISTRY_IMAGE:latest
+    - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE:latest
     #- docker tag $CI_REGISTRY/robotframework/ubuntu-robotframework-firefox-chrome ubuntu-robotframework-firefox-chrome
     # And we push it.
-    - docker push $MY_CI_REGISTRY_IMAGE:latest    
+    - docker push $CI_REGISTRY_IMAGE:latest    
