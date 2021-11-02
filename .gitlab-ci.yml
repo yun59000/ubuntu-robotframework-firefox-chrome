@@ -92,7 +92,7 @@ release-image-dockerhub:
     #login to docker hub
     - echo -n $CI_DOCKERHUB_REGISTRY_PASS | docker login -u $CI_DOCKERHUB_REGISTRY_USER --password-stdin $CI_DOCKERHUB_REGISTRY
     # Then we tag it "latest"
-    - docker tag $CI_DOCKERHUB_REGISTRY_IMAGE:$CI_COMMIT_SHA $CI_DOCKERHUB_REGISTRY_IMAGE:gitlab
+    - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA $CI_DOCKERHUB_REGISTRY_IMAGE:gitlab
     #- docker tag $CI_REGISTRY/robotframework/ubuntu-robotframework-firefox-chrome ubuntu-robotframework-firefox-chrome
     # And we push it.
     - docker push $CI_DOCKERHUB_REGISTRY_IMAGE:gitlab
