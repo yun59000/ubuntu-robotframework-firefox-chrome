@@ -76,3 +76,22 @@ release-image:
     #- docker tag $CI_REGISTRY/robotframework/ubuntu-robotframework-firefox-chrome ubuntu-robotframework-firefox-chrome
     # And we push it.
     - docker push $CI_REGISTRY_IMAGE:latest    
+
+release-image-dockerhub:
+  stage: releasedockerhub
+
+  only:
+    # Only "master" should be tagged "latest"
+    - master
+  
+  script:
+    # Because we have no guarantee that this job will be picked up by the same runner 
+    # that built the image in the previous step, we pull it again locally
+    - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    #login to docker hub
+    - echo -n $CI_DOCKERHUB_REGISTRY_PASS | docker login -u $CI_DOCKERHUB_REGISTRY_USER --password-stdin $CI_DOCKERHUB_REGISTRY
+    # Then we tag it "latest"
+    - docker tag $CI_DOCKERHUB_REGISTRY_IMAGE:$CI_COMMIT_SHA $CI_DOCKERHUB_REGISTRY_IMAGE:gitlab
+    #- docker tag $CI_REGISTRY/robotframework/ubuntu-robotframework-firefox-chrome ubuntu-robotframework-firefox-chrome
+    # And we push it.
+    - docker push $CI_DOCKERHUB_REGISTRY_IMAGE:gitlab
